@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html  lang="tr"  xmlns:og="http://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nejla AKMAN</title>
+
+
+    <meta property = "og: type" content = "website" />
+    <meta property = "og: title" content = "Nejla AKMAN" />
+    <meta property = "og: description" content = "Borsa Hisse Hesaplama İşlemleri" />
+    <meta property = "og: image" content = "img/icon.jpg" />
+    <meta property = "og: url" content = "https://www.nejla.tk" />
+    <meta property = "og: site_name" content = "Nejla AKMAN" />
+    
+        <!-- Required meta tags -->
+        
+    
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta http-equiv="Content-Type" content="text/html; ">
+        <meta http-equiv="Content-Language" content="tr">
+        <meta name="keywords" content="Nejla, Akman, Nejla Akman, yeni, Nejla YENi, Nejla akman yeni, borsa, hisse, hesap, hesaplama">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="Nejla AKMAN">
+        <!-- <meta http-equiv="refresh" content="500">  -->
+        <!-- <title>merhabalar Patent, Arduino, Subtitle Reader, WebDesign</title> -->
+        <meta name="description" content="Borsa hisse senedi yüzdelik hesaplamalarınızda kolaylık sağlar. Nejla AKMAN">
+    
+    
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <style>
+       .baslik {
+         padding: 5px;
+         border: solid 2px gray;
+         border-radius: 5px;
+         background-color: aliceblue; 
+         background: linear-gradient(to right, rgba(255, 0, 0, 0.281) 0%,rgba(4, 0, 255, 0.281) 50%, rgba(2, 255, 0, 0.281) 100%); width: fit-content;
+         box-shadow: 5px 5px 15px 5px black;
+         /* transform: scale(1.2) rotate(2deg) translate(7px, 8px) skew(3deg, 4deg); */
+       }
+
+
+    </style>
+</head>
+<body>
+
+    <div data-ng-app="myApp" data-ng-controller="myCtrl">
+        <h5 class="baslik">%X KAR ETMEK İÇİN KAÇTAN SATMAN GEREKLİ?  :</h5>
+        Lot sayısı: <input type="number" data-ng-model="adet"> adet<br>
+        Hisse maaliyeti: <input type="number" data-ng-model="maaliyet"> TL<br>
+        Kar etmek istediğin yüzde: %<input type="number" data-ng-model="kar"><br>
+        <br>
+        1 adet lotu satman gereken fiyat: <span style="color: red;">{{hisseSon()}} </span>  TL<br>
+        Toplam ele geçecek tutar: <span style="color:blue;" >{{hisseSon() * adet}}</span> TL <br>
+        Toplam net kar: <span style="color: green;">{{netkar1() }}</span>
+        <ul>
+          <li ng-repeat="x in products">
+            <span style="color:orange;">{{x.name}}</span> * <span style="color: green;">%{{x.kar}}</span> = <span style="color: red;">{{x.tutar}}</span><span ng-click="removeItem($index)">&times;</span>
+          </li>
+        </ul>
+        Hisse ismi: <input type="text" ng-model="addMe">
+        <button ng-click="addItem()">Ekle</button>
+        <p>{{errortext}}</p>
+        <hr>
+        <h5 class="baslik">SATMAK İSTEDİĞİN FİYATTAKİ KAZANÇ ORANI NE?  :</h5>
+        Lot sayısı: <input type="number" data-ng-model="adet2"> adet<br>
+        1 lot Hisse maaliyeti: <input type="number" data-ng-model="maaliyet2"> TL<br>
+        1 lotu kaçtan satmak istiyorsun? <input type="number" data-ng-model="fiyat2"><br>
+        <br>
+        Yüzdelik kazancın: <span style="color: red;">% {{farkyuzde()}}</span><br>
+        
+        Toplam ele geçecek tutar: <span style="color:green;">{{mytutar2()}}</span> TL <br>
+        Elde ettiğin net kar: <span style="color: blue;">{{mykar2()}} </span>  TL<br>
+          
+        </div>
+        
+        <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+           $scope.adet=1;
+            $scope.maaliyet= 100;
+          $scope.kar= 5;
+            
+            $scope.hisseSon= function(){
+            $scope.toplam=$scope.maaliyet + ($scope.maaliyet * $scope.kar * 0.01);
+            $scope.toplam=$scope.toplam.toFixed(2);
+            return $scope.toplam;
+            }
+
+            $scope.netkar1 = function(){
+              return Number(($scope.hisseSon() * $scope.adet) - ($scope.maaliyet * $scope.adet)).toFixed(2);
+            }
+
+            $scope.adet2=1;
+            $scope.maaliyet2= 100;
+          $scope.fiyat2= 105;
+            
+            $scope.farkyuzde= function(){
+            $scope.fark = $scope.fiyat2 - $scope.maaliyet2;
+            $scope.farkyuz = $scope.fark / $scope.maaliyet2;
+            $scope.farkyuz *= 100;
+            $scope.farkyuz = Number($scope.farkyuz).toFixed(2);
+            return $scope.farkyuz;
+            }
+
+            $scope.mytutar2 = function(){
+              $scope.tutar2 = $scope.adet2 * $scope.fiyat2;
+              $scope.tutar2 = Number($scope.tutar2).toFixed(2);
+              return $scope.tutar2;
+            }
+
+            $scope.mykar2 = function(){
+              $scope.kar3 =  ($scope.adet2 * $scope.fiyat2) - ($scope.adet2 * $scope.maaliyet2);
+              $scope.kar3 = Number($scope.kar3).toFixed(2);
+              return $scope.kar3;
+            }
+
+            $scope.products = [];
+  $scope.addItem = function () {
+    //$scope.hisseadi = "";
+    //$scope.errortext = "";
+    if (!$scope.addMe) {return;}
+    //if ($scope.products.indexOf($scope.addMe) == -1) {
+      $scope.hisseadi = {};
+      $scope.hisseadi.name = $scope.addMe;
+      $scope.hisseadi.kar = $scope.kar;
+      $scope.hisseadi.tutar= $scope.hisseSon();
+
+      //$scope.addMe + " hissesini %" + $scope.kar + " ile satmak için " + $scope.hisseSon() + " fiyattan satman gerek.";
+      //$scope.products.push($scope.hisseadi.name + " hissesini %" + $scope.hisseadi.kar + " ile satmak için " + $scope.hisseadi.tutar + " fiyattan satman gerek.");
+      $scope.products.push($scope.hisseadi);
+
+    //} else {
+    //  $scope.errortext = "The item is already in your shopping list.";
+    //}
+  }
+  $scope.removeItem = function (x) {
+    //$scope.errortext = "";
+    $scope.products.splice(x, 1);
+  }
+
+          
+        });
+        </script>
+
+    
+</body>
+</html>
